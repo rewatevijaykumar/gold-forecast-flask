@@ -5,6 +5,8 @@ from flask import Flask, render_template, request
 from pickle import dump
 from pickle import load
 import json
+import os
+
 app = Flask(__name__)
 
 # Reading the data
@@ -34,7 +36,6 @@ def predict():
             json_records = pred_df.reset_index().to_json(orient ='records')
             data = []
             data = json.loads(json_records)
-            print(pred_df)
         except ValueError:
             return render_template('home.html',error = "Please enter valid values")
     return render_template('home.html',
@@ -46,4 +47,4 @@ def predict():
     
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True)
+    app.run(host='0.0.0.0', debug=True,port=os.getenv("PORT", default=5000))
